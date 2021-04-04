@@ -1,0 +1,35 @@
+from selenium import webdriver
+from selenium.webdriver.common.action_chains import ActionChains
+
+USERNAME = 'xxx'
+PASSWORD = 'pass'
+
+driver = webdriver.Chrome('chromedriver.exe')
+driver.get('https://xxxxxx.php')
+
+user_input = driver.find_element_by_id('user_login')
+user_input.send_keys(USERNAME)
+
+password_input = driver.find_element_by_id('user_pass')
+password_input.send_keys(PASSWORD)
+
+login_button = driver.find_element_by_id('wp-submit')
+login_button.click()
+
+action = ActionChains(driver)
+
+firstLevelMenu = driver.find_element_by_id('wp-admin-bar-my-account')
+
+action.move_to_element(firstLevelMenu).perform()
+
+secondLevelMenu = driver.find_element_by_xpath("//a[contains(text(),'Log Out')]")
+
+action.move_to_element(secondLevelMenu).perform()
+
+secondLevelMenu.click()
+
+driver.close()
+
+import os
+os.system("taskkill /f /im chromedriver.exe")
+
